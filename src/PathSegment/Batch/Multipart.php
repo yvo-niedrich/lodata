@@ -9,6 +9,7 @@ use Flat3\Lodata\Controller\Response;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\BadRequestException;
 use Flat3\Lodata\Exception\Protocol\ProtocolException;
+use Flat3\Lodata\Helper\Constants;
 use Flat3\Lodata\Interfaces\ContextInterface;
 use Flat3\Lodata\Interfaces\ResourceInterface;
 use Flat3\Lodata\Interfaces\StreamInterface;
@@ -79,7 +80,6 @@ class Multipart extends Batch implements StreamInterface
 
                 array_shift($this->boundaries);
             } else {
-                $transaction->sendOutput("content-type: application/http\r\n\r\n");
                 $requestTransaction = new Transaction();
                 $requestTransaction->initialize(new Request($document->toRequest()));
 
@@ -92,6 +92,26 @@ class Multipart extends Batch implements StreamInterface
                     $response = $e->toResponse();
                 }
 
+                $responseHeaders = [
+                    Constants::contentType => ['application/http'],
+                ];
+
+                $requestHeaders = $document->getHeaders();
+
+                foreach ([Constants::contentId] as $key) {
+                    if (array_key_exists($key, $requestHeaders)) {
+                        $responseHeaders[$key] = $requestHeaders[$key];
+                    }
+                }
+
+                foreach ($responseHeaders as $key => $values) {
+                    foreach ($values as $value) {
+                        $transaction->sendOutput(strtolower((string) $key).': '.$value."\r\n");
+                    }
+                }
+
+                $transaction->sendOutput("\r\n");
+
                 $transaction->sendOutput(sprintf(
                     "HTTP/%s %s %s\r\n",
                     $response->getProtocolVersion(),
@@ -101,7 +121,7 @@ class Multipart extends Batch implements StreamInterface
 
                 foreach ($this->getResponseHeaders($response) as $key => $values) {
                     foreach ($values as $value) {
-                        $transaction->sendOutput($key.': '.$value."\r\n");
+                        $transaction->sendOutput(strtolower($key).': '.$value."\r\n");
                     }
                 }
 

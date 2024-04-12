@@ -64,6 +64,15 @@ class MultipartDocument
     }
 
     /**
+     * Get the headers of this document
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
      * Set the body of this document
      * @param  string  $body
      * @return $this
