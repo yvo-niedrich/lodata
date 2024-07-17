@@ -6,6 +6,8 @@ namespace Flat3\Lodata;
 
 use ArrayAccess;
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Protocol\NotAcceptableException;
 use Flat3\Lodata\Helper\Constants;
@@ -259,7 +261,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
             'type' => Constants::oapiObject,
             'title' => __('lodata:::name (Create schema)', ['name' => $this->getName()]),
             'properties' => (object) $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
-                return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
+                return $property->getAnnotations()->sliceByClass([Computed::class, ComputedDefaultValue::class])->count() % 2 === 0;
             })->map(function (DeclaredProperty $property) {
                 return $property->getOpenAPISchema();
             })
@@ -276,7 +278,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
             'type' => Constants::oapiObject,
             'title' => __('lodata:::name (Update schema)', ['name' => $this->getName()]),
             'properties' => (object) $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
-                return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty();
+                return $property->getAnnotations()->sliceByClass([Computed::class, Immutable::class])->isEmpty();
             })->map(function (DeclaredProperty $property) {
                 return $property->getOpenAPISchema();
             })
@@ -322,7 +324,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
     public function assertUpdateProperties(PropertyValues $propertyValues): PropertyValues
     {
         return $this->assertPropertyValues($propertyValues)->filter(function (PropertyValue $propertyValue) {
-            return !$propertyValue->getProperty()->isImmutable();
+            return !($propertyValue->getProperty()->isImmutable() || $propertyValue->getProperty()->isComputed());
         });
     }
 
@@ -371,6 +373,8 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
             $declaredProperty->assertAllowsValue(null);
         }
 
-        return $propertyValues;
+        return $propertyValues->filter(function (PropertyValue $propertyValue) {
+            return !$propertyValue->getProperty()->isComputed() || $propertyValue->getProperty()->isComputedDefault();
+        });
     }
 }

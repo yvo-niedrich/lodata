@@ -414,6 +414,15 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
     }
 
     /**
+     * Determine whether this property can is computed on create operations
+     * @return bool
+     */
+    public function isComputedDefault(): bool
+    {
+        return $this->hasAnnotation(new ComputedDefaultValue, Boolean::true());
+    }
+
+    /**
      * Determine whether this property is immutable
      * @return bool
      */
