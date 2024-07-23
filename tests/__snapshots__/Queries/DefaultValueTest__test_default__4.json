@@ -257,6 +257,11 @@
                 "type": "object",
                 "title": "test (Create schema)",
                 "properties": {
+                    "a": {
+                        "type": "string",
+                        "nullable": false,
+                        "default": {}
+                    },
                     "b": {
                         "type": "string",
                         "nullable": true

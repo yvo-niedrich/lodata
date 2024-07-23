@@ -515,6 +515,13 @@
                             "type": "string",
                             "nullable": true
                         }
+                    },
+                    "cp": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647,
+                        "nullable": true
                     }
                 }
             },
@@ -522,6 +529,13 @@
                 "type": "object",
                 "title": "passenger (Create schema)",
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "maximum": 9223372036854775807,
+                        "nullable": false
+                    },
                     "name": {
                         "type": "string",
                         "nullable": false,
