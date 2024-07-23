@@ -13,6 +13,11 @@ use Flat3\Lodata\Helper\PropertyValue;
  */
 abstract class GeneratedProperty extends Property
 {
+    public function __construct($name, ?Type $type = null)
+    {
+        parent::__construct($name, $type !== null ? $type : Type::untyped());
+    }
+
     /**
      * Generate the property value for this property on the provided entity
      * @param  ComplexValue  $value  Entity this property is generated on
