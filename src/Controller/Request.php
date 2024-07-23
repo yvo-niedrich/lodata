@@ -63,6 +63,7 @@ class Request extends IlluminateRequest implements RequestInterface
     {
         $this->method = $request->getRealMethod();
         $this->headers = $request->headers;
+        $this->cookies = $request->cookies;
         $this->query = $request->query;
         $this->content = $request->content;
         $this->server = $request->server;
