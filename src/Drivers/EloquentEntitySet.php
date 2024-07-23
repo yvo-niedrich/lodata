@@ -187,14 +187,12 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
      */
     protected function setModelAttributes(Model $model, PropertyValues $propertyValues): Model
     {
-        foreach ($propertyValues->getDeclaredPropertyValues() as $propertyValue) {
-            $model->setAttribute(
-                $this->getPropertySourceName($propertyValue->getProperty()),
-                $propertyValue->getPrimitive()->toMixed()
+        return $propertyValues->getDeclaredPropertyValues()->reduce(function(Model $model, PropertyValue $value) {
+            return $model->setAttribute(
+                $this->getPropertySourceName($value->getProperty()),
+                $value->getPrimitive()->toMixed(),
             );
-        }
-
-        return $model;
+        }, $model);
     }
 
     /**

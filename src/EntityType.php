@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flat3\Lodata;
 
 use Flat3\Lodata\Annotation\Core\V1\Computed;
+use Flat3\Lodata\Annotation\Core\V1\Immutable;
 use Flat3\Lodata\Controller\Transaction;
 use Flat3\Lodata\Exception\Internal\PathNotHandledException;
 use Flat3\Lodata\Facades\Lodata;
@@ -98,7 +99,8 @@ class EntityType extends ComplexType implements PipeInterface
             'type' => Constants::oapiObject,
             'title' => __('lodata:::name (Update schema)', ['name' => $this->getName()]),
             'properties' => (object) $this->getDeclaredProperties()->filter(function (DeclaredProperty $property) {
-                return $property->getAnnotations()->sliceByClass([Computed::class])->isEmpty() && $property !== $this->getKey();
+                return $property->getAnnotations()->sliceByClass([Computed::class, Immutable::class])->isEmpty()
+                    && $property !== $this->getKey();
             })->map(function (DeclaredProperty $property) {
                 return $property->getOpenAPISchema();
             })
