@@ -12,11 +12,20 @@ use Flat3\Lodata\Type;
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
 class LodataEnum extends LodataProperty
 {
-    protected string $enum;
+    /** @var string */
+    protected $enum;
 
-    public function __construct(string $name, string $enum, ?string $source = null)
-    {
-        parent::__construct($name, $source);
+    public function __construct(
+        string $name,
+        string $enum,
+        ?string $description = null,
+        ?string $source = null,
+        ?bool $nullable = true,
+        ?bool $immutable = false
+    ) {
+        parent::__construct($name, $description, $source);
+        $this->nullable = $nullable;
+        $this->immutable = $immutable;
         $this->enum = $enum;
     }
 
