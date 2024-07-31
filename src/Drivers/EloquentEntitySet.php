@@ -227,7 +227,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
             foreach ($navigationProperty->getConstraints() as $constraint) {
                 $referencedProperty = $constraint->getReferencedProperty();
                 $model->setAttribute(
-                    $referencedProperty->getName(),
+                    $this->getPropertySourceName($referencedProperty),
                     $this->navigationSource->getParent()->getEntityId()->getPrimitive()->toMixed()
                 );
             }
