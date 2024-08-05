@@ -41,7 +41,7 @@ abstract class LodataProperty
         $alternativeKey = false,
         $searchable = false,
         $filterable = true,
-        ?bool $immutable = false
+        ?bool $immutable = false,
     ) {
         $this->name = $name;
         $this->description = $description;
@@ -182,7 +182,7 @@ abstract class LodataProperty
         if ($this->hasScale()) {
             $property->setScale($this->getScale());
         }
-
+        
         $property->setAlternativeKey($this->isAlternativeKey());
         $property->setFilterable($this->isFilterable());
         $property->setSearchable($this->isSearchable());

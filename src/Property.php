@@ -370,7 +370,10 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
      */
     public function assertAllowsValue($value)
     {
-        if (!$this->isNullable() && $value === null) {
+        if ($this->isNullable() && $value === null) {
+            return;
+        }
+        if ($value === null) {
             throw new BadRequestException(
                 'property_not_nullable',
                 sprintf("The property '%s' cannot be set to null", $this->getName())
@@ -381,6 +384,13 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
             throw new BadRequestException(
                 'property_too_long',
                 sprintf("The value property '%s' exceeds the maximum length", $this->getName())
+            );
+        }
+
+        if (!$this->type->allowsValue($value)) {
+            throw new BadRequestException(
+                'property_not_valid_for_type',
+                sprintf("Property value '%s' is not valid for the type", $this->getName()),
             );
         }
     }
