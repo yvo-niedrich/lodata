@@ -99,4 +99,9 @@ class PrimitiveType extends Type implements IdentifierInterface
     {
         return $this->instance()->getOpenAPISchema();
     }
+
+    public function allowsValue($value): bool
+    {
+        return $this->instance()->allows($value);
+    }
 }

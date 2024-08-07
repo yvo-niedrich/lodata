@@ -57,6 +57,11 @@ abstract class Primitive implements ResourceInterface, ContextInterface, Identif
      * @return Primitive
      */
     abstract public function set($value);
+    
+    public function allows($value): bool
+    {
+        return true;
+    }
 
     /**
      * Get the internal representation of the value

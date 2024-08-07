@@ -81,4 +81,9 @@ class Guid extends Primitive
             'pattern' => '^'.Lexer::guid.'$',
         ]);
     }
+
+    public function allows($value): bool
+    {
+        return Lexer::patternCheck(Lexer::guid, (string) $value);
+    }
 }

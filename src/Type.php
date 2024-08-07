@@ -229,4 +229,9 @@ abstract class Type
     {
         return is_a($this->factory, $class, true);
     }
+
+    public function allowsValue($value): bool
+    {
+        return true;
+    }
 }
