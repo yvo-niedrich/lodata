@@ -7,7 +7,7 @@ namespace Flat3\Lodata\Drivers;
 use Doctrine\DBAL\Schema\Column;
 use Exception;
 use Flat3\Lodata\Annotation\Capabilities\V1\DeepInsertSupport;
-use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
+use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\Annotation\Core\V1\Description;
 use Flat3\Lodata\Attributes\LodataIdentifier;
 use Flat3\Lodata\Attributes\LodataProperty;
@@ -675,7 +675,7 @@ class EloquentEntitySet extends EntitySet implements CountInterface, CreateInter
 
         $defaultValue = $model->getAttributeValue($column->getName());
         if ($defaultValue) {
-            $property->addAnnotation(new ComputedDefaultValue);
+            $property->addAnnotation(new Computed);
             $property->setDefaultValue($defaultValue);
         }
 
