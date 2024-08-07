@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flat3\Lodata\Tests\Drivers;
 
-use Flat3\Lodata\Annotation\Core\V1\ComputedDefaultValue;
+use Flat3\Lodata\Annotation\Core\V1\Computed;
 use Flat3\Lodata\DeclaredProperty;
 use Flat3\Lodata\Drivers\CollectionEntitySet;
 use Flat3\Lodata\EntityType;
@@ -22,7 +22,7 @@ trait WithNumericCollectionDriver
 
         $entityType = new EntityType('passenger');
         $entityType->setOpen();
-        $entityType->setKey((new DeclaredProperty('id', Type::int64()))->addAnnotation(new ComputedDefaultValue));
+        $entityType->setKey((new DeclaredProperty('id', Type::int64()))->addAnnotation(new Computed));
         $this->addPassengerProperties($entityType);
         $entityType->getDeclaredProperty('name')->setSearchable();
         $entitySet = new CollectionEntitySet($this->entitySet, $entityType);

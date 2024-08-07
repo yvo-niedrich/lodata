@@ -85,7 +85,7 @@
           <PropertyRef Name="id"/>
         </Key>
         <Property Name="id" Type="Edm.Int64" Nullable="false">
-          <Annotation Term="Org.OData.Core.V1.ComputedDefaultValue" Bool="true"/>
+          <Annotation Term="Org.OData.Core.V1.Computed" Bool="true"/>
         </Property>
         <Property Name="name" Type="Edm.String" Nullable="false" MaxLength="255"/>
         <Property Name="age" Type="Edm.Double" Nullable="true"/>

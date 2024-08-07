@@ -122,7 +122,7 @@
         "id": {
             "$Type": "Edm.Int64",
             "$Nullable": false,
-            "@Org.OData.Core.V1.ComputedDefaultValue": true
+            "@Org.OData.Core.V1.Computed": true
         },
         "name": {
             "$Type": "Edm.String",
