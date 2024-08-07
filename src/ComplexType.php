@@ -358,7 +358,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
                 continue;
             }
 
-            if ($declaredProperty->isNullable() || $declaredProperty->isComputed()) {
+            if ($declaredProperty->isNullable() || $declaredProperty->isComputed() || $declaredProperty->isComputedDefault()) {
                 continue;
             }
 
@@ -377,7 +377,7 @@ class ComplexType extends Type implements ResourceInterface, ContextInterface, I
         }
 
         return $propertyValues->filter(function (PropertyValue $propertyValue) {
-            return !$propertyValue->getProperty()->isComputed() || $propertyValue->getProperty()->isComputedDefault();
+            return !$propertyValue->getProperty()->isComputed();
         });
     }
 }
