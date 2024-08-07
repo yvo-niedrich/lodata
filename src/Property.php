@@ -370,10 +370,11 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
      */
     public function assertAllowsValue($value)
     {
-        if ($this->isNullable() && $value === null) {
-            return;
-        }
         if ($value === null) {
+            if ($this->isNullable()) {
+                return;
+            }
+
             throw new BadRequestException(
                 'property_not_nullable',
                 sprintf("The property '%s' cannot be set to null", $this->getName())
@@ -389,8 +390,8 @@ abstract class Property implements NameInterface, TypeInterface, AnnotationInter
 
         if (!$this->type->allowsValue($value)) {
             throw new BadRequestException(
-                'property_not_valid_for_type',
-                sprintf("Property value '%s' is not valid for the type", $this->getName()),
+                'property_value_invalid',
+                sprintf("The value property '%s' is not valid", $this->getName()),
             );
         }
     }
