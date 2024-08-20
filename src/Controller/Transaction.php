@@ -642,7 +642,7 @@ class Transaction
     {
         $formatQueryOption = $this->getFormat()->getValue();
 
-        if (Str::startsWith($formatQueryOption, ['json', 'xml'])) {
+        if ($formatQueryOption && Str::startsWith($formatQueryOption, ['json', 'xml'])) {
             if (!in_array($formatQueryOption, ['json', 'xml'])) {
                 throw new BadRequestException(
                     'invalid_short_format',
